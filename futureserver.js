@@ -28,19 +28,8 @@ app.get('/',function(request,response){
 	response.render("index.html");
 //	response.send();
 });
-/*
-app.get('/status',function(request,response){
-	var out = ""
-	if(onOrOff=true){
-		out = 'wet';
-	}
-	else{
-		out = 'dry';
-	}
-	response.send(out);
-});
-*/
 app.post('/',function(request,response){
+
 	
 	var url_parts = url.parse(request.url,true);
 	var query = url_parts.query;
