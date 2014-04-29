@@ -1,0 +1,4 @@
+#! /bin/bash
+
+#invoke module to stop server
+./node_modules/forever/bin/forever stop server.js
