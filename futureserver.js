@@ -28,6 +28,11 @@ app.get('/',function(request,response){
 	response.render("index.html");
 //	response.send();
 });
+
+app.get('/status',function(request,response){
+	var out = onOrOff ? 'wet':'dry';
+	response.send(out);
+});
 app.post('/',function(request,response){
 
 	
