@@ -30,7 +30,11 @@ app.get('/',function(request,response){
 });
 
 app.get('/status',function(request,response){
-	var out = onOrOff ? 'wet':'dry';
+	
+	var url_parts = url.parse(request.url,true);
+	console.log(url_parts);
+
+	var out = onOrOff ? 'on':'off';
 	response.send(out);
 });
 app.post('/',function(request,response){
