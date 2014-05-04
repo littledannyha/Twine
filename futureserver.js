@@ -3,7 +3,7 @@ var connect = require('connect');
 var express = require('express');
 var url = require('url')
 var numPostRequests = 0;
-var onOrOff = false;
+var wet = false;
 var engines = require('consolidate');
 
 app = express();
@@ -16,7 +16,7 @@ app.engine('html',require('ejs').renderFile);
 
 app.get('/',function(request,response){
 	//response.write(returnStandardHead());
-	console.log('THIS IS A GET REQUEST'); 
+	console.log('THIS IS A WEB PAGE REQUEST'); 
 	var url_parts = url.parse(request.url,true);
 	console.log(url_parts);
 
@@ -31,10 +31,15 @@ app.get('/',function(request,response){
 
 app.get('/status',function(request,response){
 	
+	console.log('THIS IS A STATUS REQUEST');
+	
 	var url_parts = url.parse(request.url,true);
 	console.log(url_parts);
 
-	var out = onOrOff ? 'on':'off';
+	var out =  wet ? 'on':'off';
+	response.header('Access-Control-Allow-Origin','*');
+	response.header( 'Access-Control-Allow-Methods','GET,PUT,POST,DELETE');
+	response.header('Access-Control-Allow-Headers', 'Content-Type');
 	response.send(out);
 });
 app.post('/',function(request,response){
@@ -43,10 +48,10 @@ app.post('/',function(request,response){
 	var url_parts = url.parse(request.url,true);
 	var query = url_parts.query;
 	if(query.status == 'wet'){
-		onOrOff = true;
+		wet = true;
 	}
 	else{
-		onOrOff = false;
+		wet = false;
 	}
 	console.log("request" + numPostRequests);
 	console.log(url_parts);
