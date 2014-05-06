@@ -3,9 +3,12 @@ var connect = require('connect');
 var express = require('express');
 var url = require('url')
 var numPostRequests = 0;
+var numStatusRequests = 0;
+var timeRunning = 0;
+var lastStart = -1;
 var wet = false;
 var engines = require('consolidate');
-
+var demo = true;
 app = express();
 
 app.set('views', __dirname + '/templates');
@@ -13,6 +16,10 @@ app.engine('html',require('ejs').renderFile);
 
 //app.use(express.json());
 //app.use(express.urlencoded());
+
+
+
+
 
 app.get('/',function(request,response){
 	//response.write(returnStandardHead());
@@ -29,14 +36,42 @@ app.get('/',function(request,response){
 //	response.send();
 });
 
-app.get('/status',function(request,response){
+
+app.get('/time',function(request,response){
 	
-	console.log('THIS IS A STATUS REQUEST');
 	
 	var url_parts = url.parse(request.url,true);
-	console.log(url_parts);
+	//console.log(url_parts);
+	console.log('time request');
 
-	var out =  wet ? 'on':'off';
+	var out =  wet ? '~on':'~off';
+	if(!demo){
+		var date = new Date();
+		if(date.getHours() > 6 || date.getHours() < 4){
+			out = '~off';
+		}
+	}
+	response.header('Access-Control-Allow-Origin','*');
+	response.header( 'Access-Control-Allow-Methods','GET,PUT,POST,DELETE');
+	response.header('Access-Control-Allow-Headers', 'Content-Type');
+	response.send(out);
+
+app.get('/status',function(request,response){
+	
+	
+	var url_parts = url.parse(request.url,true);
+	//console.log(url_parts);
+	console.log(wet);
+
+	console.log('status request: ' + numStatusRequests);
+	numStatusRequests = numStatusRequests + 1; 
+	var out =  wet ? '~on':'~off';
+	if(!demo){
+		var date = new Date();
+		if(date.getHours() > 6 || date.getHours() < 4){
+			out = '~off';
+		}
+	}
 	response.header('Access-Control-Allow-Origin','*');
 	response.header( 'Access-Control-Allow-Methods','GET,PUT,POST,DELETE');
 	response.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -49,13 +84,16 @@ app.post('/',function(request,response){
 	var query = url_parts.query;
 	if(query.status == 'wet'){
 		wet = true;
+		lastStart = new Date().getTime();
+		
 	}
 	else{
 		wet = false;
+		timeRunning += new Date().getTime() - lastStart;
+		
 	}
-	console.log("request" + numPostRequests);
-	console.log(url_parts);
-	console.log('\n');
+	console.log("request: " + numPostRequests + '\n');
+	console.log('the sensor is ' + (wet ? 'wet':'dry'));
 	numPostRequests = numPostRequests + 1;
 });
 

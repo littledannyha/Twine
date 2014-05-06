@@ -108,6 +108,31 @@
         color: rgb(0, 0, 0);
       }
     </style>
+
+
+
+
+
+      <script> 
+	$(document).ready(function(){
+
+	var httpReq = new XMLHttpRequest();
+	httpReq.open("GET","/status",false);
+	httpReq.send();
+	//alert(httpReq.response);
+	//var status = document.getElementByID("status");
+	var status = $('#status')[0];
+	status.innerHTML = httpReq.response.substring(1);
+});
+//       document.write(3);
+//	$.get("54.86.104.183/status",function(data){
+//		alert("Data Loaded: " + data);
+//	});
+      </script>
+
+
+
+	
   </head>
   
   <body>
@@ -117,19 +142,14 @@
       </div>
     </div>
     <div class="gwd-div-b3sg gwd-div-pgl0 gwd-div-arjk">
-      <div class="gwd-div-ox55 gwd-div-22wl gwd-div-agmp"><span class="gwd-span-umx0"><font face="Trebuchet MS"><span class="gwd-span-7ugx">Status: 
-      <script type="text/javascript"> 
-	var httpReq = new XMLHttpRequest();
-	httpReq.open("GET","/status",true);
-	httpReq.send();
-//       document.write(3);
-//	$.get("54.86.104.183/status",function(data){
-//		alert("Data Loaded: " + data);
-//	});
-      </script>&nbsp;</span>
-	
-        </font>
-        </span>
+      <div class="gwd-div-ox55 gwd-div-22wl gwd-div-agmp"><span class="gwd-span-umx0"><font face="Trebuchet MS"><span class="gwd-span-7ugx">Status: 	
+	</span>
+	<div id="status">
+	</div>
+
+
+
+
       </div>
     </div>
 
