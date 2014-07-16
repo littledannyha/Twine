@@ -1,7 +1,7 @@
 //Load necessary servers var sys = require('sys'); var fs = require('fs'); var http = require('http');
 var connect = require('connect');
 var express = require('express');
-var url = require('url')
+var url = require('url');
 var numPostRequests = 0;
 var numStatusRequests = 0;
 var timeRunning = 0;
@@ -36,25 +36,6 @@ app.get('/',function(request,response){
 //	response.send();
 });
 
-
-app.get('/time',function(request,response){
-	
-	
-	var url_parts = url.parse(request.url,true);
-	//console.log(url_parts);
-	console.log('time request');
-
-	var out =  wet ? '~on':'~off';
-	if(!demo){
-		var date = new Date();
-		if(date.getHours() > 6 || date.getHours() < 4){
-			out = '~off';
-		}
-	}
-	response.header('Access-Control-Allow-Origin','*');
-	response.header( 'Access-Control-Allow-Methods','GET,PUT,POST,DELETE');
-	response.header('Access-Control-Allow-Headers', 'Content-Type');
-	response.send(out);
 
 app.get('/status',function(request,response){
 	
